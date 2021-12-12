@@ -11,11 +11,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.studyeasy.showroom.hibernate.entities.BrandEntity;
 import org.studyeasy.showroom.service.BrandsService;
 
-@Path("/showroom/brands")
+@Path("/showroom/brands") 
 public class Brands {
 	BrandsService service = new BrandsService();
 	
@@ -28,10 +30,12 @@ public class Brands {
 	}
 	
 	@POST  // specifies the type of request to be handled
-	@Consumes(MediaType.APPLICATION_JSON) //Specifies the type of media the method will return, MediaType.APPLICATION_JSON for JSON response
-	public void postBrands(BrandEntity brand) {
-		service.addBrand(brand);
+	@Consumes(MediaType.APPLICATION_JSON) //Consumes annotation because the method will consume the database, MediaType.APPLICATION_JSON for JSON response
+	@Produces(MediaType.APPLICATION_JSON) // MediaType.APPLICATION_JSON because the response is an object
+	public Response postBrands(BrandEntity brand) {
 		
+		service.addBrand(brand);
+		return Response.status(Status.CREATED).entity(brand).build();  //entity() method for displaying the response on the page
 	}
 	
 	@PUT

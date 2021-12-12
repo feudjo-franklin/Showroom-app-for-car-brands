@@ -2,6 +2,8 @@ package org.studyeasy.showroom.hibernate.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,7 +13,8 @@ import javax.persistence.Table;
 public class BrandEntity {
 	
 	@Id
-	@Column(name="brandId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //This annotation will tell Hibernate, that this value will be automatically generated based on the primary key of the table
+	@Column(name="brandId")		//it means ,the setter method is called in background to set the value of attribut based on the database whenever we add a row into the table or list the table
 	private int brandId;
 	
 	@Column(name="brandName")
