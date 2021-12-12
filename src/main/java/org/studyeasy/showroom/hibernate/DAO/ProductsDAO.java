@@ -20,8 +20,17 @@ public class ProductsDAO {
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();
 		List<ProductEntity> productsList;
-		String sql = "from products where brandId = '" + brandId + "'";
-		productsList = session.createQuery(sql).getResultList();
+		String HQL = "from products where brandId = '" + brandId + "'";
+		productsList = session.createQuery(HQL).getResultList();
+		return productsList;
+	}
+
+	public List<ProductEntity> getProductsByBrandAndCategory(int brandId, String category) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		List<ProductEntity> productsList;
+		String HQL = "from products where brandId = '" + brandId + "' and category = '" + category + "'";
+		productsList = session.createQuery(HQL).getResultList();
 		return productsList;
 	}
 	
