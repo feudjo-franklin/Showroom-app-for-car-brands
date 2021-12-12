@@ -29,4 +29,8 @@ public class BrandsService {
 		
 	}
 
+	public BrandEntity getBrand(int brandId) {
+		return DAO.getBrand(brandId);
+	}
+
 }

@@ -14,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.studyeasy.showroom.hibernate.entities.BrandEntity;
@@ -32,12 +31,21 @@ public class Brands {
 		return list;
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{brandId}")
+	public BrandEntity getBrands(@PathParam("brandId") int brandId) {
+		
+		return service.getBrand(brandId);
+	}
+	
 	@POST  // specifies the type of request to be handled
 	@Consumes(MediaType.APPLICATION_JSON) //Consumes annotation because the method will consume the database, MediaType.APPLICATION_JSON for JSON response
 	@Produces(MediaType.APPLICATION_JSON) // MediaType.APPLICATION_JSON because the response is an object
 	public Response postBrands(BrandEntity brand, @Context UriInfo uri) {
-		URI location = uri.getAbsolutePath();
+		
 		service.addBrand(brand);
+		URI location = uri.getAbsolutePathBuilder().path(Integer.toString(brand.getBrandId())).build(); //Building the URI with the brandId at the end
 		return Response.created(location).entity(brand).build();
 				//status(Status.CREATED).entity(brand).build();  //entity() method for displaying the response on the page
 	}
