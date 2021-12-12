@@ -19,16 +19,21 @@ public class Products {
 	@GET  // specifies the type of request to be handled
 	@Produces(MediaType.APPLICATION_JSON) //Specifies the type of media the method will return, MediaType.APPLICATION_XML for XML response
 	public List<ProductEntity> getProductsByBrand(@PathParam("brandId") int brandId,
-												  @QueryParam("category") String category) {
+			@QueryParam("category") String category, @QueryParam("start") int start,
+			@QueryParam("end") int end) { //Default value of int parameter is 0
 		
 		List<ProductEntity> productsList;
 		if(category != null) {  //Filtering the data based on the category
 			productsList = productsService.getProductsByBrandAndCatgory(brandId, category);
-			return productsList;
+			
 		}else {
 			productsList = productsService.getProductsByBrand(brandId);
-			return productsList;
 		}
 		
+		if(end > 0) {
+			productsList = productsList.subList(start, end);
+		}
+		
+		return productsList;
 	}
 }
