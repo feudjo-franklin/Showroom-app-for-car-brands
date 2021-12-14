@@ -39,7 +39,13 @@ public class BrandsResource {
 	public Brand getBrands(@PathParam("brandId") int brandId, @Context UriInfo uri) {
 		
 		Link self = new Link(uri.getAbsolutePath().toString(), "self");
-		Link products = new Link(uri.getAbsolutePathBuilder().path("products").build().toString(), "products");
+		//Link products = new Link(uri.getAbsolutePathBuilder().path("products").build().toString(), "products");
+		//Generating a uri with subresource by taking help of the subresource class and the method
+		String productsUri = uri.getBaseUriBuilder()
+				.path(ProductsResource.class)  //Add the path for the productsResource
+				.path(ProductsResource.class, "getProductsByBrand") //Add the path for the method inside of productsResource
+				.resolveTemplate("brandId", brandId).toString(); //Will give the path of a subresource based on the class an the method by including the value of the url
+		Link products = new Link(productsUri, "products");
 		Brand brand = service.getBrand(brandId);
 		List<Link> links = new ArrayList<Link>();
 		links.add(self);
@@ -75,9 +81,10 @@ public class BrandsResource {
 	}
 	
 	//We delegate the call of the different brand's products to the subresource class Products 
+	/*
 	@Path("/{brandId}/products")
 	public ProductsResource productsDelegation() {
 		return new ProductsResource();
 	}
-	
+	*/
 }
