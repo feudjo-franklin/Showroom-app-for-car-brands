@@ -1,6 +1,7 @@
 package org.studyeasy.showroom.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -37,9 +38,13 @@ public class BrandsResource {
 	@Path("/{brandId}")
 	public Brand getBrands(@PathParam("brandId") int brandId, @Context UriInfo uri) {
 		
-		Link link = new Link(uri.getAbsolutePath().toString(), "self");
+		Link self = new Link(uri.getAbsolutePath().toString(), "self");
+		Link products = new Link(uri.getAbsolutePathBuilder().path("products").build().toString(), "products");
 		Brand brand = service.getBrand(brandId);
-		brand.setLinks(link);
+		List<Link> links = new ArrayList<Link>();
+		links.add(self);
+		links.add(products);
+		brand.setLinks(links);
 		return brand;
 	}
 	

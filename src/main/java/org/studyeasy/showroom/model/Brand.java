@@ -1,5 +1,7 @@
 package org.studyeasy.showroom.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Brand {
 	private String brandName;
 	
 	@Transient  // To stop Hibernate to map this attribut with a column in the database table brands
-	private Link links;
+	private List<Link> links;
 	
 	public Brand() {
 	
@@ -50,13 +52,14 @@ public class Brand {
 		this.brandName = brandName;
 	}
 
-	public Link getLinks() {
+	public List<Link> getLinks() {
 		return links;
 	}
 
-	public void setLinks(Link links) {
+	public void setLinks(List<Link> links) {
 		this.links = links;
 	}
+
 	
 	
 }
