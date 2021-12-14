@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 // add @XmlRootElement when xml response is awaited, annotation is optional for JSON response
 @Entity(name="brands")
@@ -19,6 +20,9 @@ public class Brand {
 	
 	@Column(name="brandName")
 	private String brandName;
+	
+	@Transient  // To stop Hibernate to map this attribut with a column in the database table brands
+	private Link links;
 	
 	public Brand() {
 	
@@ -44,6 +48,14 @@ public class Brand {
 
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
+	}
+
+	public Link getLinks() {
+		return links;
+	}
+
+	public void setLinks(Link links) {
+		this.links = links;
 	}
 	
 	

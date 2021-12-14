@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.studyeasy.showroom.model.Brand;
+import org.studyeasy.showroom.model.Link;
 import org.studyeasy.showroom.service.BrandsService;
 
 @Path("/showroom/brands") 
@@ -34,9 +35,12 @@ public class BrandsResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{brandId}")
-	public Brand getBrands(@PathParam("brandId") int brandId) {
+	public Brand getBrands(@PathParam("brandId") int brandId, @Context UriInfo uri) {
 		
-		return service.getBrand(brandId);
+		Link link = new Link(uri.getAbsolutePath().toString(), "self");
+		Brand brand = service.getBrand(brandId);
+		brand.setLinks(link);
+		return brand;
 	}
 	
 	@POST  // specifies the type of request to be handled
